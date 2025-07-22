@@ -1,0 +1,18 @@
+{
+  "terraform_version": "1.8.0",
+  "terragrunt_version": "0.57.0",
+  "environments": {
+    "main": {
+      "TF_WORKSPACE": "infra-azure-prod",
+      "TG_WORKDIR": "environment/prod"
+    },
+    "stage": {
+      "TF_WORKSPACE": "infra-azure-stage",
+      "TG_WORKDIR": "environment/stage"
+    },
+    "dev": {
+      "TF_WORKSPACE": "infra-azure-dev",
+      "TG_WORKDIR": "environment/dev"
+    }
+  }
+}
