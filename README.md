@@ -70,28 +70,55 @@ terraform-terragrunt-azure-project/
 
 ## Usage
 
-1. add symlink for modules and common files
+### 1. add symlink for modules and common files
 ```bash
 ./scripts/symlink-modules.sh
 ./scripts/symlink-common.sh
 ```
 
-2. add .env file to the root of the project
+### 2. add .env file to the root of the project
 
 ```bash
 TERRAFORM_ORG_NAME=your-org-name
 TERRAFORM_WORKSPACE_TAGS=your-workspace-tags
 ```
-3. update config.json file
 
-4. Add azure environment variables in terraform cloud workspace
+### 3. update config.json file
+
+```json
+{
+  "terraform_version": "1.8.0",
+  "terragrunt_version": "0.57.0",
+  "environments": {
+    "main": {
+      "TF_WORKSPACE": "infra-azure-prod",
+      "TG_WORKDIR": "environment/prod"
+    },
+    "stage": {
+      "TF_WORKSPACE": "infra-azure-stage",
+      "TG_WORKDIR": "environment/stage"
+    },
+    "dev": {
+      "TF_WORKSPACE": "infra-azure-dev",
+      "TG_WORKDIR": "environment/dev"
+    },
+    "default": {
+      "TF_WORKSPACE": "default",
+      "TG_WORKDIR": "environment/default"
+    }
+  }
+}
+```
+
+
+### 4. Add azure environment variables in terraform cloud workspace
 
 Environment Variables:
 
-`ARM_CLIENT_ID` = Your Service Principal App ID
-`ARM_CLIENT_SECRET` = Your Service Principal Password (mark as sensitive)
-`ARM_SUBSCRIPTION_ID` = Your Azure Subscription ID
-`ARM_TENANT_ID` = Your Azure Tenant ID
+* `ARM_CLIENT_ID` = Your Service Principal App ID
+* `ARM_CLIENT_SECRET` = Your Service Principal Password (mark as sensitive)
+* `ARM_SUBSCRIPTION_ID` = Your Azure Subscription ID
+* `ARM_TENANT_ID` = Your Azure Tenant ID
 
 * Create Service Principal
 ```bash
