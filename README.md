@@ -139,9 +139,14 @@ az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<your-sub
 
 ## Setting Up GitHub Secrets
 
-To ensure that the GitHub Action workflow runs correctly, you need to set up the following GitHub secret:
+To ensure that the GitHub Action workflow runs correctly, you need to set up the following GitHub secret and variables:
 
+* Secrets:
 - **`TF_API_TOKEN`**: This is a Terraform Cloud API token used for authentication.
+
+* Variables:
+- **`TERRAFORM_ORG_NAME`**: This is the name of the Terraform Cloud organization.
+- **`TERRAFORM_WORKSPACE_TAGS`**: This is the tags of the Terraform Cloud workspace.
 
 ## Update Config File
 

@@ -1,4 +1,5 @@
 # Define the Terraform backend configuration to use Terraform Cloud
+
 locals {
   organization = get_env("TERRAFORM_ORG_NAME")
   workspace_tags = get_env("TERRAFORM_WORKSPACE_TAGS")
