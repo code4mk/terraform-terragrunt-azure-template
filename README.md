@@ -68,22 +68,22 @@ terraform-terragrunt-azure-project/
 
 ---
 
-## Usage
+# Usage
 
-### 1. add symlink for modules and common files
+## 1. add symlink for modules and common files
 ```bash
 ./scripts/symlink-modules.sh
 ./scripts/symlink-common.sh
 ```
 
-### 2. add .env file to the root of the project
+## 2. add .env file to the root of the project
 
 ```bash
 TERRAFORM_ORG_NAME=your-org-name
 TERRAFORM_WORKSPACE_TAGS=your-workspace-tags
 ```
 
-### 3. update config.json file
+## 3. update config.json file
 
 ```json
 {
@@ -111,16 +111,17 @@ TERRAFORM_WORKSPACE_TAGS=your-workspace-tags
 ```
 
 
-### 4. Add azure environment variables in terraform cloud workspace
+## 4. Add azure environment variables in terraform cloud workspace
 
-Environment Variables:
+### Environment Variables:
 
 * `ARM_CLIENT_ID` = Your Service Principal App ID
 * `ARM_CLIENT_SECRET` = Your Service Principal Password (mark as sensitive)
 * `ARM_SUBSCRIPTION_ID` = Your Azure Subscription ID
 * `ARM_TENANT_ID` = Your Azure Tenant ID
 
-* Create Service Principal
+### Create Service Principal
+
 ```bash
 # Login to Azure
 az login
@@ -129,7 +130,7 @@ az login
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<your-subscription-id>" --name="terraform-sp"
 ```
 
-5. run terragrunt with the following command
+## 5. run terragrunt with the following command
 ```bash
 ./scripts/run.sh
 ```
