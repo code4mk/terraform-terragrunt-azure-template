@@ -1,0 +1,95 @@
+name: Azure Provisioning with Terraform and Terragrunt
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to run the workflow for"
+        required: true
+        default: "dev"
+        type: choice
+        options: [dev, stage, prod]
+      action_type:
+        description: "Action type to run"
+        required: true
+        default: "plan"
+        type: choice
+        options: [plan, apply, destroy]
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      TERRAFORM_ORG_NAME: ${{ vars.TERRAFORM_ORG_NAME }}
+      TERRAFORM_WORKSPACE_TAGS: ${{ vars.TERRAFORM_WORKSPACE_TAGS }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Load configuration from config.json
+        id: load-config
+        run: |
+          CONFIG_FILE="${GITHUB_WORKSPACE}/config.json"
+          TF_VERSION=$(jq -r '.terraform_version' "$CONFIG_FILE")
+          TG_VERSION=$(jq -r '.terragrunt_version' "$CONFIG_FILE")
+          ENVIRONMENT="${{ github.event.inputs.environment }}"
+          
+          # Map 'prod' input to 'main' config key
+          if [ "$ENVIRONMENT" = "prod" ]; then
+            CONFIG_KEY="main"
+          else
+            CONFIG_KEY="$ENVIRONMENT"
+          fi
+
+          ENV_CONFIG=$(jq -r --arg env "$CONFIG_KEY" '.environments[$env]' "$CONFIG_FILE")
+          TF_WORKSPACE=$(echo "$ENV_CONFIG" | jq -r '.TF_WORKSPACE')
+          TG_WORKDIR=$(echo "$ENV_CONFIG" | jq -r '.TG_WORKDIR')
+
+          echo "TF_VERSION=$TF_VERSION" >> $GITHUB_ENV
+          echo "TG_VERSION=$TG_VERSION" >> $GITHUB_ENV
+          echo "TF_WORKSPACE=$TF_WORKSPACE" >> $GITHUB_ENV
+          echo "TG_WORKDIR=$TG_WORKDIR" >> $GITHUB_ENV
+
+      - name: Set up Terraform CLI
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: true
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Set up Terragrunt CLI
+        run: |
+          curl -sLo terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v${{ env.TG_VERSION }}/terragrunt_linux_amd64
+          chmod +x terragrunt
+          sudo mv terragrunt /usr/local/bin/terragrunt
+          echo "✅ Terragrunt CLI setup completed!"
+
+      - name: Run symlink-modules.sh
+        run: |
+          ./scripts/symlink-modules.sh
+          echo "🔗 Symlink modules completed!"
+
+      - name: Run symlink-common.sh
+        run: |
+          ./scripts/symlink-common.sh
+          echo "🔗 Symlink common completed!"
+
+      - name: Terragrunt Init
+        run: |
+          cd "${{ github.workspace }}/${{ env.TG_WORKDIR }}"
+          terragrunt init --terragrunt-non-interactive
+          echo "🔧 Terragrunt init completed!"
+
+      - name: Terragrunt ${{ github.event.inputs.action_type }}
+        run: |
+          cd "${{ github.workspace }}/${{ env.TG_WORKDIR }}"
+          terragrunt ${{ github.event.inputs.action_type }} --terragrunt-non-interactive --auto-approve
+          echo "📝 Terragrunt ${{ github.event.inputs.action_type }} completed!"
+
+      - name: Display success message
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo "🚀 Terraform Terragrunt Action triggered manually!"
