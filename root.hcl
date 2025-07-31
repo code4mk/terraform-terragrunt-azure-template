@@ -1,5 +1,3 @@
-# Define the Terraform backend configuration to use Terraform Cloud
-
 locals {
   organization = get_env("TERRAFORM_ORG_NAME")
   workspace_tags = get_env("TERRAFORM_WORKSPACE_TAGS")
@@ -20,7 +18,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0"
+      version = "~> 4.0"
     }
   }
 }

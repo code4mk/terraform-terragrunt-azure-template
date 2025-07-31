@@ -1,6 +1,6 @@
 {
-  "terraform_version": "1.8.0",
-  "terragrunt_version": "0.57.0",
+  "terraform_version": "1.12.2",
+  "terragrunt_version": "0.83.2",
   "environments": {
     "main": {
       "TF_WORKSPACE": "infra-azure-prod",

@@ -85,13 +85,13 @@ cd "$TG_WORKDIR" || { echo "Error: Directory '$TG_WORKDIR' does not exist. Pleas
 
 # Initialize Terraform with Terragrunt
 echo -e "\n=== Initializing Terragrunt ==="
-echo "Running: terragrunt init --terragrunt-non-interactive"
-terragrunt init --terragrunt-non-interactive
+echo "Running: terragrunt init --non-interactive"
+terragrunt init --non-interactive --upgrade
 
 # Select the Terragrunt workspace
 echo -e "\n=== Selecting Terragrunt Workspace ==="
 echo "Attempting to select workspace: $TF_WORKSPACE"
-if terragrunt workspace select "$TF_WORKSPACE"; then
+if terragrunt run -- workspace select "$TF_WORKSPACE"; then
     echo "Workspace '$TF_WORKSPACE' selected successfully."
 else
     echo "Workspace '$TF_WORKSPACE' not found. Creating new workspace..."
@@ -101,19 +101,19 @@ fi
 
 # Run the selected Terragrunt action
 echo -e "\n=== Executing Terragrunt $ACTION ==="
-echo "Running: terragrunt $ACTION --terragrunt-non-interactive"
+echo "Running: terragrunt $ACTION --non-interactive"
 case $ACTION in
   plan)
-    terragrunt plan --terragrunt-non-interactive
+    terragrunt plan --non-interactive
     ;;
   apply)
-    terragrunt apply --terragrunt-non-interactive
+    terragrunt apply --non-interactive
     ;;
   destroy)
     echo "Warning: You are about to destroy resources. This action is irreversible."
     read -p "Are you sure you want to proceed with destroy? (yes/no): " CONFIRM
     if [ "$CONFIRM" = "yes" ]; then
-      terragrunt destroy --terragrunt-non-interactive
+      terragrunt destroy --non-interactive --auto-approve
     else
       echo "Destroy action cancelled."
       exit 0
