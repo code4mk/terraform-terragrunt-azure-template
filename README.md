@@ -11,14 +11,14 @@ A Terraform and Terragrunt project for managing Azure infrastructure across mult
     - `modules/` — Symlinks to root-level modules
     - `common-*.tf` — Symlinks to shared `common` configs
 - `environment/` — Contains per-environment `terragrunt.hcl` config
-- `terragrunt.hcl` — Root-level configuration used by all environments
+- `root.hcl` — Root-level configuration used by all environments
 - `scripts/` — Utility scripts for setting up symlinks and running terragrunt
 
 # File structure
 
 ```bash
 terraform-terragrunt-azure-project/
-├── terragrunt.hcl                # Root Terragrunt config (shared by all envs)
+├── root.hcl                # Root Terragrunt config (shared by all envs)
 │
 ├── modules/                           # Reusable Terraform modules
 │   ├── subnet/
