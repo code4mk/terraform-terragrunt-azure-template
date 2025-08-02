@@ -18,52 +18,54 @@ A Terraform and Terragrunt project for managing Azure infrastructure across mult
 
 ```bash
 terraform-terragrunt-azure-project/
-├── root.hcl                # Root Terragrunt config (shared by all envs)
+├── README.md                     # Project overview, usage, prerequisites, etc.
+├── azure.md                      # Azure-specific notes or instructions
+├── config.json                   # Optional config or metadata (not used by Terraform)
+├── root.hcl                      # Root Terragrunt configuration for all environments
+
+├── environment/                  # Terragrunt environment configs
+│   ├── dev/
+│   │   └── terragrunt.hcl        # Dev environment-specific Terragrunt config
+│   ├── stage/
+│   │   └── terragrunt.hcl        # Stage environment-specific Terragrunt config
+│   └── prod/
+│       └── terragrunt.hcl        # Prod environment-specific Terragrunt config
+├── live/                         # Terraform environment code (per workspace)
+│   ├── common/                   # Shared Terraform code (e.g., tags, providers)
+│   │   └── common-resources.tf   # Common code to be symlinked
 │
-├── modules/                           # Reusable Terraform modules
-│   ├── subnet/
+│   ├── dev/
+│   │   ├── common-*.tf           # Symlinked common tf files
+│   │   ├── main.tf               # Entry point for Terraform resources
+│   │   ├── variables.tf          # Input variables
+│   │   ├── output.tf             # Output variables
+│   │   └── modules/              # Symlinked modules
+│   │       └── resource_group
+│
+│   ├── stage/
+│   │   ├── common-*.tf
 │   │   ├── main.tf
+│   │   ├── variables.tf
 │   │   ├── output.tf
-│   │   └── variables.tf
-│   └── vpc/
+│   │   └── modules/             # Symlinked modules
+│   │       └── resource_group
+│
+│   └── prod/
+│       ├── common-*.tf           # Symlinked common tf files
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── output.tf
+│       └── modules/             # Symlinked modules
+│           └── resource_group
+├── modules/                      # Reusable Terraform modules
+│   └── resource_group/           # Resource group module
 │       ├── main.tf
 │       ├── output.tf
 │       └── variables.tf
-│
-├── live/                          # Terraform project code per environment
-│   ├── common/                        # Shared Terraform configurations
-│   │   └── common-*.tf              # e.g., common-tags.tf, common-provider.tf
-│   ├── dev/
-│   │   ├── modules/                   # 🔗 Symlinks to ../../modules/*
-│   │   ├── common-*.tf                # 🔗 Symlinks to ../common/*
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── output.tf
-│   ├── stage/
-│   │   ├── modules/                   # 🔗 Symlinks to ../../modules/*
-│   │   ├── common-*.tf                # 🔗 Symlinks to ../common/*
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── output.tf
-│   └── prod/
-│       ├── modules/                   # 🔗 Symlinks to ../../modules/*
-│       ├── common-*.tf                # 🔗 Symlinks to ../common/*
-│       ├── main.tf
-│       ├── variables.tf
-│       └── output.tf
-│
-├── environment/                       # Terragrunt HCL configs per environment
-│   ├── dev/
-│   │   └── terragrunt.hcl
-│   ├── stage/
-│   │   └── terragrunt.hcl
-│   └── prod/
-│       └── terragrunt.hcl
-│
-└── scripts/                           # Setup automation scripts
-    ├── run.sh                     # ✅ Run scripts
-    ├── symlink-common.sh          # 🔁 Symlinks common tf files into all envs
-    └── symlink-modules.sh         # 🔁 Symlinks shared modules into all envs
+└── scripts/                      # Automation utilities
+    ├── run.sh                    # Example: wrapper to run Terragrunt/Terraform
+    ├── symlink-common.sh         # Script to symlink common tf files into each env
+    └── symlink-modules.sh        # Script to symlink shared modules into each env
 ```
 
 ---
