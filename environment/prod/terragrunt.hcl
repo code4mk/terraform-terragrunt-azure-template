@@ -14,6 +14,8 @@ locals {
 
 # Define the inputs for the module
 inputs = {
+  environment             = local.environment
+  
   resource_group_name     = "rg-prod"
   resource_group_location = "eastus"
   resource_group_tags     = {
