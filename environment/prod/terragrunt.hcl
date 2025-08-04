@@ -8,6 +8,7 @@ include "root" {
 }
 
 locals {
+  environment = "prod"
   project_name = "Your project name"
 }
 

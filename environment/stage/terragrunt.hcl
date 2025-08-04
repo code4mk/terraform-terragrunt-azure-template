@@ -8,6 +8,7 @@ include "root" {
 }
 
 locals {
+  environment = "stage"
   project_name = "Your project name"
 }
 

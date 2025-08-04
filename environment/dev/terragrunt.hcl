@@ -8,6 +8,7 @@ include "root" {
 }
 
 locals {
+  environment = "dev"
   project_name = "Your project name"
 }
 
