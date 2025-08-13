@@ -182,6 +182,10 @@ Here is the format for `config.json`:
   }
 }
 ```
+
+> [!NOTE]
+> This project intentionally uses a minimal set of Terragrunt features, primarily focusing on environment variable management and configuration inheritance. This approach keeps the infrastructure code simple and maintainable while still leveraging Terragrunt's key benefits for managing multi-environment deployments.
+
 ---
 
 ## 💼 Professional Services
