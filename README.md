@@ -77,7 +77,7 @@ terraform-terragrunt-azure-project/
 - Azure CLI
 - Azure Subscription
 
-* Before installation terrafrom and terragrunt, check the [Terragrunt and Terraform version Compatibility](https://terragrunt.gruntwork.io/docs/reference/supported-versions/#supported-terraform-versions)
+> Before installation terrafrom and terragrunt, check the [Terragrunt and Terraform version Compatibility](https://terragrunt.gruntwork.io/docs/reference/supported-versions/#supported-terraform-versions)
 
 
 # Setup
