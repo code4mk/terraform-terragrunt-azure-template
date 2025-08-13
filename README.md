@@ -72,12 +72,11 @@ terraform-terragrunt-azure-project/
 
 # Prerequisites
 
-- Terraform
-- Terragrunt
-- Azure CLI
-- Azure Subscription
+  - [Terraform](https://developer.hashicorp.com/terraform/downloads)
+  - [Terragrunt](https://terragrunt.gruntwork.io/docs/getting-started/install/)
+  - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
-> Before installation terrafrom and terragrunt, check the [Terragrunt and Terraform version Compatibility](https://terragrunt.gruntwork.io/docs/reference/supported-versions/#supported-terraform-versions)
+> Before installation terraform and terragrunt, check the [Terragrunt and Terraform version Compatibility](https://terragrunt.gruntwork.io/docs/reference/supported-versions/#supported-terraform-versions)
 
 
 # Setup
