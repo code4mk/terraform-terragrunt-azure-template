@@ -70,7 +70,17 @@ terraform-terragrunt-azure-project/
 
 ---
 
-# Usage
+# Prerequisites
+
+- Terraform
+- Terragrunt
+- Azure CLI
+- Azure Subscription
+
+* Before installation terrafrom and terragrunt, check the [Terragrunt and Terraform version Compatibility](https://terragrunt.gruntwork.io/docs/reference/supported-versions/#supported-terraform-versions)
+
+
+# Setup
 
 ## 1. add symlink for modules and common files
 ```bash
@@ -143,10 +153,10 @@ az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<your-sub
 
 To ensure that the GitHub Action workflow runs correctly, you need to set up the following GitHub secret and variables:
 
-* Secrets:
+### Secrets:
 - **`TF_API_TOKEN`**: This is a Terraform Cloud API token used for authentication.
 
-* Variables:
+### Variables:
 - **`TERRAFORM_ORG_NAME`**: This is the name of the Terraform Cloud organization.
 - **`TERRAFORM_WORKSPACE_TAGS`**: This is the tags of the Terraform Cloud workspace.
 
